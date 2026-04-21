@@ -430,8 +430,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                             next = document.activeElement;
                         }
 
-                        var left = this.$selected.offsetLeft + this.$selected.offsetWidth / 2;
-                        var top = this.$selected.offsetTop + this.$selected.offsetHeight / 2;
+                        var left = this.$selected.offsetLeft;
+                        var top = this.$selected.offsetTop;
 
                         console.log(this.$options, this.elements(), left, top);
                         next = this.elements().reduce(function (prev, curr) {
