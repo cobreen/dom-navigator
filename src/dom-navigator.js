@@ -181,6 +181,7 @@
                 up: 38,
                 right: 39,
                 down: 40,
+                tab: 9,
                 cols: 0,
                 autofocus: false,
             };
@@ -215,6 +216,7 @@
             this.$keys[this.$options.up] = this.up;
             this.$keys[this.$options.right] = this.right;
             this.$keys[this.$options.down] = this.down;
+            this.$keys[this.$options.tab] = this.tab;
 
             // Calculate cols if needed for grid mode.
             if (this.$options.mode === DomNavigator.MODE.grid && !this.$options.cols) {
@@ -294,9 +296,12 @@
             switch (this.$options.mode) {
 
                 case DomNavigator.MODE.auto:
-                    if (!this.$selected) {
+                    if (!this.$selected && !this.$options.autofocus) {
                         next = this.elements()[0];
                         break;
+                    }
+                    if (!this.$selected && this.$options.autofocus) {
+                        next = document.activeElement;
                     }
                     if (this.$options.autofocus && this.$selected.dataset.domNavigatorLeft) {
                         next = document.querySelector(this.$selected.dataset.domNavigatorLeft);
@@ -362,9 +367,12 @@
             switch (this.$options.mode) {
 
                 case DomNavigator.MODE.auto:
-                    if (!this.$selected) {
+                    if (!this.$selected && !this.$options.autofocus) {
                         next = this.elements()[0];
                         break;
+                    }
+                    if (!this.$selected && this.$options.autofocus) {
+                        next = document.activeElement;
                     }
                     if (this.$options.autofocus && this.$selected.dataset.domNavigatorUp) {
                         next = document.querySelector(this.$selected.dataset.domNavigatorUp);
@@ -430,9 +438,12 @@
             switch (this.$options.mode) {
 
                 case DomNavigator.MODE.auto:
-                    if (!this.$selected) {
+                    if (!this.$selected && !this.$options.autofocus) {
                         next = this.elements()[0];
                         break;
+                    }
+                    if (!this.$selected && this.$options.autofocus) {
+                        next = document.activeElement;
                     }
                     if (this.$options.autofocus && this.$selected.dataset.domNavigatorRight) {
                         next = document.querySelector(this.$selected.dataset.domNavigatorRight);
@@ -496,9 +507,12 @@
             switch (this.$options.mode) {
 
                 case DomNavigator.MODE.auto:
-                    if (!this.$selected) {
+                    if (!this.$selected && !this.$options.autofocus) {
                         next = this.elements()[0];
                         break;
+                    }
+                    if (!this.$selected && this.$options.autofocus) {
+                        next = document.activeElement;
                     }
                     if (this.$options.autofocus && this.$selected.dataset.domNavigatorDown) {
                         next = document.querySelector(this.$selected.dataset.domNavigatorDown);
@@ -551,6 +565,14 @@
             }
 
             this.select(next, DomNavigator.DIRECTION.down);
+        }
+
+        tab() {
+            if (this.$selected && this.$options.autofocus) {
+                removeClass(this.$selected, this.$options.selected);
+                this.$selected.blur();
+                this.$selected = null;
+            }
         }
 
         closest(top, left, height, width, prev, curr) {
