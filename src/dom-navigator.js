@@ -366,26 +366,35 @@
                     // }
 
                     let left = this.$selected.offsetLeft;
+                    let width = this.$selected.offsetWidth;
                     let top = this.$selected.offsetTop;
 
                     console.log("SELECTED1", this.$selected, left, top);
                     console.log(this.$options, this.elements());
-                    next = this.elements().reduce((prev, curr) => {
-                        let currDistance = Math.abs(left - curr.offsetLeft) + Math.abs(top - curr.offsetTop);
-                        console.log({e: curr}, currDistance)
-                        if (curr.offsetTop >= this.$selected) {return prev;}
-                        console.log("above")
-                        if (currDistance > prev.distance) {return prev;}
-                        console.log("closer")
-                        if (this.$options.autofocus && curr.disabled) {return prev;}
-                        console.log("gotcha")
+                    next = this.elements()
+                        .filter((el) => {
+                                    //at least above
+                            return  el.offsetTop < this.$selected.offsetTop &&
+                                    //somewhat in X bounds
+                                    (el.offsetLeft + el.offsetWidth) > left &&
+                                    (left + width) > el.offsetLeft &&
+                                    //non-disabled (when we care)
+                                    (!this.$options.autofocus || !curr.disabled)
+                        })
+                        //closest
+                        .reduce((prev, curr) => {
+                            let currDistance = Math.abs(top - curr.offsetTop);
+                            console.log({e: curr}, currDistance)
+                            //isn't closer
+                            if (currDistance > prev.distance) {return prev;}
+                            console.log("closer")
                             return {
                                 distance: currDistance,
                                 element: curr
                             };
-                    }, {
-                        distance: Infinity
-                    });
+                        }, {
+                            distance: Infinity
+                        });
                     next = next.element;
                     console.log("SELECTED2", next)
                     break;

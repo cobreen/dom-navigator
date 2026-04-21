@@ -419,25 +419,28 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                         // }
 
                         var left = this.$selected.offsetLeft;
+                        var width = this.$selected.offsetWidth;
                         var top = this.$selected.offsetTop;
 
                         console.log("SELECTED1", this.$selected, left, top);
                         console.log(this.$options, this.elements());
-                        next = this.elements().reduce(function (prev, curr) {
-                            var currDistance = Math.abs(left - curr.offsetLeft) + Math.abs(top - curr.offsetTop);
+                        next = this.elements().filter(function (el) {
+                            //at least above
+                            return el.offsetTop < _this.$selected.offsetTop &&
+                            //somewhat in X bounds
+                            el.offsetLeft + el.offsetWidth > left && left + width > el.offsetLeft && (
+                            //non-disabled (when we care)
+                            !_this.$options.autofocus || !curr.disabled);
+                        })
+                        //closest
+                        .reduce(function (prev, curr) {
+                            var currDistance = Math.abs(top - curr.offsetTop);
                             console.log({ e: curr }, currDistance);
-                            if (curr.offsetTop >= _this.$selected) {
-                                return prev;
-                            }
-                            console.log("above");
+                            //isn't closer
                             if (currDistance > prev.distance) {
                                 return prev;
                             }
                             console.log("closer");
-                            if (_this.$options.autofocus && curr.disabled) {
-                                return prev;
-                            }
-                            console.log("gotcha");
                             return {
                                 distance: currDistance,
                                 element: curr
