@@ -457,6 +457,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                             distance: Infinity
                         });
                         next = next.element;
+                        console.log("SELECTED", next);
                         break;
 
                     case DomNavigator.MODE.horizontal:
