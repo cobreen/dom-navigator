@@ -181,7 +181,8 @@
                 up: 38,
                 right: 39,
                 down: 40,
-                cols: 0
+                cols: 0,
+                autofocus: false,
             };
         }
 
@@ -296,6 +297,9 @@
                     if (!this.$selected) {
                         next = this.elements()[0];
                         break;
+                    }
+                    if (this.$options.autofocus && this.elements().find((el) => el === document.activeElement)) {
+                        next = document.activeElement;
                     }
 
                     let left = this.$selected.offsetLeft - 1;
@@ -567,6 +571,7 @@
             // Select given element.
             addClass(el, this.$options.selected);
             this.$selected = el;
+            this.$selected.focus();
         }
 
         /**
