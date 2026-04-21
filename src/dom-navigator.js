@@ -307,13 +307,12 @@
 
                     next = this.elementsBefore(left, Infinity).reduce((prev, curr) => {
                         let currDistance = Math.abs(left - curr.offsetLeft) + Math.abs(top - curr.offsetTop);
-                        if (currDistance < prev.distance) {
-                            return {
-                                distance: currDistance,
-                                element: curr
-                            };
-                        }
-                        return prev;
+                        if (currDistance > prev.distance) {return prev;}
+                        if (this.$options.autofocus && curr.disabled) {return prev;}
+                        return {
+                            distance: currDistance,
+                            element: curr
+                        };
                     }, {
                         distance: Infinity
                     });
@@ -570,6 +569,9 @@
 
             // Select given element.
             addClass(el, this.$options.selected);
+            if (this.$options.autofocus) {
+                this.$selected.blur();
+            }
             this.$selected = el;
             if (this.$options.autofocus) {
                 this.$selected.focus();

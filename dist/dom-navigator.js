@@ -40,7 +40,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
      * @returns {Object}
      */
 
-    var _this = this;
+    var _this2 = this;
 
     function extend(out) {
         out = out || {};
@@ -337,6 +337,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         }, {
             key: 'left',
             value: function left() {
+                var _this = this;
+
                 var next = null;
 
                 switch (this.$options.mode) {
@@ -357,13 +359,16 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
                         next = this.elementsBefore(left, Infinity).reduce(function (prev, curr) {
                             var currDistance = Math.abs(left - curr.offsetLeft) + Math.abs(top - curr.offsetTop);
-                            if (currDistance < prev.distance) {
-                                return {
-                                    distance: currDistance,
-                                    element: curr
-                                };
+                            if (currDistance > prev.distance) {
+                                return prev;
                             }
-                            return prev;
+                            if (_this.$options.autofocus && curr.disabled) {
+                                return prev;
+                            }
+                            return {
+                                distance: currDistance,
+                                element: curr
+                            };
                         }, {
                             distance: Infinity
                         });
@@ -635,8 +640,13 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
                 // Select given element.
                 addClass(el, this.$options.selected);
+                if (this.$options.autofocus) {
+                    this.$selected.blur();
+                }
                 this.$selected = el;
-                this.$selected.focus();
+                if (this.$options.autofocus) {
+                    this.$selected.focus();
+                }
             }
 
             /**
@@ -846,7 +856,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
         $.fn.domNavigator.noConflict = function () {
             $.fn.domNavigator = old;
-            return _this;
+            return _this2;
         };
     }
 });
