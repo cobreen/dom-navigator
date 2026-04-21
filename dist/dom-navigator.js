@@ -40,7 +40,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
      * @returns {Object}
      */
 
-    var _this2 = this;
+    var _this5 = this;
 
     function extend(out) {
         out = out || {};
@@ -413,6 +413,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         }, {
             key: 'up',
             value: function up() {
+                var _this2 = this;
+
                 var next = null;
 
                 switch (this.$options.mode) {
@@ -422,19 +424,27 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                             next = this.elements()[0];
                             break;
                         }
+                        if (this.$options.autofocus && this.elements().find(function (el) {
+                            return el === document.activeElement;
+                        })) {
+                            next = document.activeElement;
+                        }
 
                         var left = this.$selected.offsetLeft;
                         var top = this.$selected.offsetTop - 1;
 
                         next = this.elementsBefore(Infinity, top).reduce(function (prev, curr) {
                             var currDistance = Math.abs(left - curr.offsetLeft) + Math.abs(top - curr.offsetTop);
-                            if (currDistance < prev.distance) {
-                                return {
-                                    distance: currDistance,
-                                    element: curr
-                                };
+                            if (currDistance > prev.distance) {
+                                return prev;
                             }
-                            return prev;
+                            if (_this2.$options.autofocus && curr.disabled) {
+                                return prev;
+                            }
+                            return {
+                                distance: currDistance,
+                                element: curr
+                            };
                         }, {
                             distance: Infinity
                         });
@@ -479,6 +489,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         }, {
             key: 'right',
             value: function right() {
+                var _this3 = this;
+
                 var next = null;
 
                 switch (this.$options.mode) {
@@ -488,19 +500,27 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                             next = this.elements()[0];
                             break;
                         }
+                        if (this.$options.autofocus && this.elements().find(function (el) {
+                            return el === document.activeElement;
+                        })) {
+                            next = document.activeElement;
+                        }
 
                         var left = this.$selected.offsetLeft + this.$selected.offsetWidth;
                         var top = this.$selected.offsetTop;
 
                         next = this.elementsAfter(left, 0).reduce(function (prev, curr) {
                             var currDistance = Math.abs(curr.offsetLeft - left) + Math.abs(curr.offsetTop - top);
-                            if (currDistance < prev.distance) {
-                                return {
-                                    distance: currDistance,
-                                    element: curr
-                                };
+                            if (currDistance > prev.distance) {
+                                return prev;
                             }
-                            return prev;
+                            if (_this3.$options.autofocus && curr.disabled) {
+                                return prev;
+                            }
+                            return {
+                                distance: currDistance,
+                                element: curr
+                            };
                         }, {
                             distance: Infinity
                         });
@@ -543,6 +563,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         }, {
             key: 'down',
             value: function down() {
+                var _this4 = this;
+
                 var next = null;
 
                 switch (this.$options.mode) {
@@ -552,19 +574,27 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                             next = this.elements()[0];
                             break;
                         }
+                        if (this.$options.autofocus && this.elements().find(function (el) {
+                            return el === document.activeElement;
+                        })) {
+                            next = document.activeElement;
+                        }
 
                         var left = this.$selected.offsetLeft;
                         var top = this.$selected.offsetTop + this.$selected.offsetHeight;
 
                         next = this.elementsAfter(0, top).reduce(function (prev, curr) {
                             var currDistance = Math.abs(curr.offsetLeft - left) + Math.abs(curr.offsetTop - top);
-                            if (currDistance < prev.distance) {
-                                return {
-                                    distance: currDistance,
-                                    element: curr
-                                };
+                            if (currDistance > prev.distance) {
+                                return prev;
                             }
-                            return prev;
+                            if (_this4.$options.autofocus && curr.disabled) {
+                                return prev;
+                            }
+                            return {
+                                distance: currDistance,
+                                element: curr
+                            };
                         }, {
                             distance: Infinity
                         });
@@ -856,7 +886,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
         $.fn.domNavigator.noConflict = function () {
             $.fn.domNavigator = old;
-            return _this2;
+            return _this5;
         };
     }
 });
