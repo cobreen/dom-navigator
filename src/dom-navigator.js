@@ -371,7 +371,7 @@
                     let top = this.$selected.offsetTop + (this.$selected.offsetHeight / 2);
 
                     console.log(this.elements(), left, top);
-                    next = this.elements(left, top).reduce((prev, curr) => {
+                    next = this.elements().reduce((prev, curr) => {
                         let currDistance = Math.abs(left - curr.offsetLeft) + Math.abs(top - curr.offsetTop);
                         console.log({e: curr}, currDistance)
                         if (curr.offsetTop >= this.$selected) {return prev;}

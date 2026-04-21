@@ -434,7 +434,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                         var top = this.$selected.offsetTop + this.$selected.offsetHeight / 2;
 
                         console.log(this.elements(), left, top);
-                        next = this.elements(left, top).reduce(function (prev, curr) {
+                        next = this.elements().reduce(function (prev, curr) {
                             var currDistance = Math.abs(left - curr.offsetLeft) + Math.abs(top - curr.offsetTop);
                             console.log({ e: curr }, currDistance);
                             if (curr.offsetTop >= _this2.$selected) {
