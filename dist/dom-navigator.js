@@ -1,5 +1,5 @@
 /*!
- * dom-navigator - v1.1.0 - 2026-04-21
+ * dom-navigator - v1.1.0 - 2026-04-22
  *
  * https://github.com/rmariuzzo/dom-navigator
  * Copyright (c) 2014, 2026 Rubens Mariuzzo Licensed MIT
@@ -348,28 +348,24 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                             next = this.elements()[0];
                             break;
                         }
-                        if (this.$options.autofocus && this.elements().find(function (el) {
-                            return el === document.activeElement;
-                        })) {
-                            next = document.activeElement;
+                        if (this.$options.autofocus && this.$selected.dataset.domNavigatorLeft) {
+                            next = document.querySelector(this.$selected.dataset.domNavigatorLeft);
+                            break;
                         }
 
-                        var left = this.$selected.offsetLeft - 1;
+                        var left = this.$selected.offsetLeft;
+                        var width = this.$selected.offsetWidth;
                         var top = this.$selected.offsetTop;
+                        var height = this.$selected.offsetHeight;
 
-                        next = this.elementsBefore(left, Infinity).reduce(function (prev, curr) {
-                            var currDistance = Math.abs(left - curr.offsetLeft) + Math.abs(top - curr.offsetTop);
-                            if (currDistance > prev.distance) {
-                                return prev;
-                            }
-                            if (_this.$options.autofocus && curr.disabled) {
-                                return prev;
-                            }
-                            return {
-                                distance: currDistance,
-                                element: curr
-                            };
-                        }, {
+                        next = this.elements().filter(function (el) {
+                            //at least to the left
+                            return el.offsetLeft < _this.$selected.offsetLeft && (
+                            //non-disabled (when we care)
+                            !_this.$options.autofocus || !el.disabled);
+                        })
+                        //closest
+                        .reduce(this.closest.bind(null, top, left, height, width), {
                             distance: Infinity
                         });
                         next = next.element;
@@ -424,28 +420,24 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                             next = this.elements()[0];
                             break;
                         }
-                        if (this.$options.autofocus && this.elements().find(function (el) {
-                            return el === document.activeElement;
-                        })) {
-                            next = document.activeElement;
+                        if (this.$options.autofocus && this.$selected.dataset.domNavigatorUp) {
+                            next = document.querySelector(this.$selected.dataset.domNavigatorUp);
+                            break;
                         }
 
                         var left = this.$selected.offsetLeft;
-                        var top = this.$selected.offsetTop - 1;
+                        var width = this.$selected.offsetWidth;
+                        var top = this.$selected.offsetTop;
+                        var height = this.$selected.offsetHeight;
 
-                        next = this.elementsBefore(Infinity, top).reduce(function (prev, curr) {
-                            var currDistance = Math.abs(left - curr.offsetLeft) + Math.abs(top - curr.offsetTop);
-                            if (currDistance > prev.distance) {
-                                return prev;
-                            }
-                            if (_this2.$options.autofocus && curr.disabled) {
-                                return prev;
-                            }
-                            return {
-                                distance: currDistance,
-                                element: curr
-                            };
-                        }, {
+                        next = this.elements().filter(function (el) {
+                            //at least above
+                            return el.offsetTop < _this2.$selected.offsetTop && (
+                            //non-disabled (when we care)
+                            !_this2.$options.autofocus || !el.disabled);
+                        })
+                        //closest
+                        .reduce(this.closest.bind(null, top, left, height, width), {
                             distance: Infinity
                         });
                         next = next.element;
@@ -500,28 +492,24 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                             next = this.elements()[0];
                             break;
                         }
-                        if (this.$options.autofocus && this.elements().find(function (el) {
-                            return el === document.activeElement;
-                        })) {
-                            next = document.activeElement;
+                        if (this.$options.autofocus && this.$selected.dataset.domNavigatorRight) {
+                            next = document.querySelector(this.$selected.dataset.domNavigatorRight);
+                            break;
                         }
 
-                        var left = this.$selected.offsetLeft + this.$selected.offsetWidth;
+                        var left = this.$selected.offsetLeft;
+                        var width = this.$selected.offsetWidth;
                         var top = this.$selected.offsetTop;
+                        var height = this.$selected.offsetHeight;
 
-                        next = this.elementsAfter(left, 0).reduce(function (prev, curr) {
-                            var currDistance = Math.abs(curr.offsetLeft - left) + Math.abs(curr.offsetTop - top);
-                            if (currDistance > prev.distance) {
-                                return prev;
-                            }
-                            if (_this3.$options.autofocus && curr.disabled) {
-                                return prev;
-                            }
-                            return {
-                                distance: currDistance,
-                                element: curr
-                            };
-                        }, {
+                        next = this.elements().filter(function (el) {
+                            //at least to the right
+                            return el.offsetLeft > _this3.$selected.offsetLeft && (
+                            //non-disabled (when we care)
+                            !_this3.$options.autofocus || !el.disabled);
+                        })
+                        //closest
+                        .reduce(this.closest.bind(null, top, left, height, width), {
                             distance: Infinity
                         });
                         next = next.element;
@@ -574,28 +562,24 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                             next = this.elements()[0];
                             break;
                         }
-                        if (this.$options.autofocus && this.elements().find(function (el) {
-                            return el === document.activeElement;
-                        })) {
-                            next = document.activeElement;
+                        if (this.$options.autofocus && this.$selected.dataset.domNavigatorDown) {
+                            next = document.querySelector(this.$selected.dataset.domNavigatorDown);
+                            break;
                         }
 
                         var left = this.$selected.offsetLeft;
-                        var top = this.$selected.offsetTop + this.$selected.offsetHeight;
+                        var width = this.$selected.offsetWidth;
+                        var top = this.$selected.offsetTop;
+                        var height = this.$selected.offsetHeight;
 
-                        next = this.elementsAfter(0, top).reduce(function (prev, curr) {
-                            var currDistance = Math.abs(curr.offsetLeft - left) + Math.abs(curr.offsetTop - top);
-                            if (currDistance > prev.distance) {
-                                return prev;
-                            }
-                            if (_this4.$options.autofocus && curr.disabled) {
-                                return prev;
-                            }
-                            return {
-                                distance: currDistance,
-                                element: curr
-                            };
-                        }, {
+                        next = this.elements().filter(function (el) {
+                            //at least below
+                            return el.offsetTop > _this4.$selected.offsetTop && (
+                            //non-disabled (when we care)
+                            !_this4.$options.autofocus || !el.disabled);
+                        })
+                        //closest
+                        .reduce(this.closest.bind(null, top, left, height, width), {
                             distance: Infinity
                         });
                         next = next.element;
@@ -628,6 +612,19 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                 }
 
                 this.select(next, DomNavigator.DIRECTION.down);
+            }
+        }, {
+            key: 'closest',
+            value: function closest(top, left, height, width, prev, curr) {
+                var currDistance = Math.abs(top - curr.offsetTop) + Math.abs(left - curr.offsetLeft);
+                //isn't closer
+                if (currDistance > prev.distance) {
+                    return prev;
+                }
+                return {
+                    distance: currDistance,
+                    element: curr
+                };
             }
 
             /**
@@ -663,6 +660,9 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                 // Unselect previous element.
                 if (this.$selected) {
                     removeClass(this.$selected, this.$options.selected);
+                    if (this.$options.autofocus) {
+                        this.$selected.blur();
+                    }
                 }
 
                 // Scroll to given element.
@@ -670,9 +670,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
                 // Select given element.
                 addClass(el, this.$options.selected);
-                if (this.$options.autofocus && this.$selected) {
-                    this.$selected.blur();
-                }
                 this.$selected = el;
                 if (this.$options.autofocus) {
                     this.$selected.focus();

@@ -298,24 +298,27 @@
                         next = this.elements()[0];
                         break;
                     }
-                    if (this.$options.autofocus && this.elements().find((el) => el === document.activeElement)) {
-                        next = document.activeElement;
+                    if (this.$options.autofocus && this.$selected.dataset.domNavigatorLeft) {
+                        next = document.querySelector(this.$selected.dataset.domNavigatorLeft);
+                        break;
                     }
 
-                    let left = this.$selected.offsetLeft + (this.$selected.offsetWidth / 2);
-                    let top = this.$selected.offsetTop + (this.$selected.offsetHeight / 2);
+                    let left = this.$selected.offsetLeft;
+                    let width = this.$selected.offsetWidth;
+                    let top = this.$selected.offsetTop;
+                    let height = this.$selected.offsetHeight;
 
-                    next = this.elementsBefore(left, top).reduce((prev, curr) => {
-                        let currDistance = Math.abs(left - curr.offsetLeft) + Math.abs(top - curr.offsetTop);
-                        if (currDistance > prev.distance) {return prev;}
-                        if (this.$options.autofocus && curr.disabled) {return prev;}
-                        return {
-                            distance: currDistance,
-                            element: curr
-                        };
-                    }, {
-                        distance: Infinity
-                    });
+                    next = this.elements()
+                        .filter((el) => {
+                            //at least to the left
+                            return  el.offsetLeft < this.$selected.offsetLeft &&
+                                    //non-disabled (when we care)
+                                    (!this.$options.autofocus || !el.disabled);
+                        })
+                        //closest
+                        .reduce(this.closest.bind(null, top,left,height,width), {
+                            distance: Infinity
+                        });
                     next = next.element;
                     break;
 
@@ -363,24 +366,27 @@
                         next = this.elements()[0];
                         break;
                     }
-                    if (this.$options.autofocus && this.elements().find((el) => el === document.activeElement)) {
-                        next = document.activeElement;
+                    if (this.$options.autofocus && this.$selected.dataset.domNavigatorUp) {
+                        next = document.querySelector(this.$selected.dataset.domNavigatorUp);
+                        break;
                     }
 
-                    let left = this.$selected.offsetLeft + (this.$selected.offsetWidth / 2);
-                    let top = this.$selected.offsetTop + (this.$selected.offsetHeight / 2);
+                    let left = this.$selected.offsetLeft;
+                    let width = this.$selected.offsetWidth;
+                    let top = this.$selected.offsetTop;
+                    let height = this.$selected.offsetHeight;
 
-                    next = this.elementsBefore(left, top).reduce((prev, curr) => {
-                        let currDistance = Math.abs(left - curr.offsetLeft) + Math.abs(top - curr.offsetTop);
-                        if (currDistance > prev.distance) {return prev;}
-                        if (this.$options.autofocus && curr.disabled) {return prev;}
-                        return {
-                            distance: currDistance,
-                            element: curr
-                        };
-                    }, {
-                        distance: Infinity
-                    });
+                    next = this.elements()
+                        .filter((el) => {
+                                    //at least above
+                            return  el.offsetTop < this.$selected.offsetTop &&
+                                    //non-disabled (when we care)
+                                    (!this.$options.autofocus || !el.disabled);
+                        })
+                        //closest
+                        .reduce(this.closest.bind(null, top,left,height,width), {
+                            distance: Infinity
+                        });
                     next = next.element;
                     break;
 
@@ -428,24 +434,27 @@
                         next = this.elements()[0];
                         break;
                     }
-                    if (this.$options.autofocus && this.elements().find((el) => el === document.activeElement)) {
-                        next = document.activeElement;
+                    if (this.$options.autofocus && this.$selected.dataset.domNavigatorRight) {
+                        next = document.querySelector(this.$selected.dataset.domNavigatorRight);
+                        break;
                     }
 
-                    let left = this.$selected.offsetLeft + (this.$selected.offsetWidth / 2);
-                    let top = this.$selected.offsetTop + (this.$selected.offsetHeight / 2);
+                    let left = this.$selected.offsetLeft;
+                    let width = this.$selected.offsetWidth;
+                    let top = this.$selected.offsetTop;
+                    let height = this.$selected.offsetHeight;
 
-                    next = this.elementsAfter(left, top).reduce((prev, curr) => {
-                        let currDistance = Math.abs(curr.offsetLeft - left) + Math.abs(curr.offsetTop - top);
-                        if (currDistance > prev.distance) {return prev;}
-                        if (this.$options.autofocus && curr.disabled) {return prev;}
-                        return {
-                            distance: currDistance,
-                            element: curr
-                        };
-                    }, {
-                        distance: Infinity
-                    });
+                    next = this.elements()
+                        .filter((el) => {
+                            //at least to the right
+                            return  el.offsetLeft > this.$selected.offsetLeft &&
+                                    //non-disabled (when we care)
+                                    (!this.$options.autofocus || !el.disabled);
+                        })
+                        //closest
+                        .reduce(this.closest.bind(null, top,left,height,width), {
+                            distance: Infinity
+                        });
                     next = next.element;
                     break;
 
@@ -491,24 +500,27 @@
                         next = this.elements()[0];
                         break;
                     }
-                    if (this.$options.autofocus && this.elements().find((el) => el === document.activeElement)) {
-                        next = document.activeElement;
+                    if (this.$options.autofocus && this.$selected.dataset.domNavigatorDown) {
+                        next = document.querySelector(this.$selected.dataset.domNavigatorDown);
+                        break;
                     }
 
-                    let left = this.$selected.offsetLeft + (this.$selected.offsetWidth / 2);
-                    let top = this.$selected.offsetTop + (this.$selected.offsetHeight / 2);
+                    let left = this.$selected.offsetLeft;
+                    let width = this.$selected.offsetWidth;
+                    let top = this.$selected.offsetTop;
+                    let height = this.$selected.offsetHeight;
 
-                    next = this.elementsAfter(left, top).reduce((prev, curr) => {
-                        let currDistance = Math.abs(curr.offsetLeft - left) + Math.abs(curr.offsetTop - top);
-                        if (currDistance > prev.distance) {return prev;}
-                        if (this.$options.autofocus && curr.disabled) {return prev;}
-                        return {
-                            distance: currDistance,
-                            element: curr
-                        };
-                    }, {
-                        distance: Infinity
-                    });
+                    next = this.elements()
+                        .filter((el) => {
+                            //at least below
+                            return  el.offsetTop > this.$selected.offsetTop &&
+                                //non-disabled (when we care)
+                                (!this.$options.autofocus || !el.disabled);
+                        })
+                        //closest
+                        .reduce(this.closest.bind(null, top,left,height,width), {
+                            distance: Infinity
+                        });
                     next = next.element;
                     break;
 
@@ -541,6 +553,16 @@
             this.select(next, DomNavigator.DIRECTION.down);
         }
 
+        closest(top, left, height, width, prev, curr) {
+            let currDistance = Math.abs(top - curr.offsetTop) + Math.abs(left - curr.offsetLeft);
+            //isn't closer
+            if (currDistance > prev.distance) {return prev;}
+            return {
+                distance: currDistance,
+                element: curr
+            };
+        }
+
         /**
          * Return the selected DOM element.
          *
@@ -568,6 +590,7 @@
             // Unselect previous element.
             if (this.$selected) {
                 removeClass(this.$selected, this.$options.selected);
+                if (this.$options.autofocus) {this.$selected.blur();}
             }
 
             // Scroll to given element.
@@ -575,9 +598,6 @@
 
             // Select given element.
             addClass(el, this.$options.selected);
-            if (this.$options.autofocus && this.$selected) {
-                this.$selected.blur();
-            }
             this.$selected = el;
             if (this.$options.autofocus) {
                 this.$selected.focus();
