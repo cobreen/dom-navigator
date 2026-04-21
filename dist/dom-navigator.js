@@ -354,10 +354,10 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                             next = document.activeElement;
                         }
 
-                        var left = this.$selected.offsetLeft - 1;
-                        var top = this.$selected.offsetTop;
+                        var left = this.$selected.offsetLeft + this.$selected.offsetWidth / 2;
+                        var top = this.$selected.offsetTop + this.$selected.offsetHeight / 2;
 
-                        next = this.elementsBefore(left, Infinity).reduce(function (prev, curr) {
+                        next = this.elementsBefore(left, top).reduce(function (prev, curr) {
                             var currDistance = Math.abs(left - curr.offsetLeft) + Math.abs(top - curr.offsetTop);
                             if (currDistance > prev.distance) {
                                 return prev;
@@ -430,11 +430,12 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                             next = document.activeElement;
                         }
 
-                        var left = this.$selected.offsetLeft;
-                        var top = this.$selected.offsetTop - 1;
+                        var left = this.$selected.offsetLeft + this.$selected.offsetWidth / 2;
+                        var top = this.$selected.offsetTop + this.$selected.offsetHeight / 2;
 
-                        next = this.elementsBefore(Infinity, top).reduce(function (prev, curr) {
-                            var currDistance = Math.abs(left - curr.offsetLeft) + Math.abs(top - curr.offsetTop);
+                        next = this.elementsBefore(left, top).reduce(function (prev, curr) {
+                            var currDistance = Math.abs(top - curr.offsetTop);
+                            console.log({ e: curr }, currDistance);
                             if (currDistance > prev.distance) {
                                 return prev;
                             }
@@ -506,10 +507,10 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                             next = document.activeElement;
                         }
 
-                        var left = this.$selected.offsetLeft + this.$selected.offsetWidth;
-                        var top = this.$selected.offsetTop;
+                        var left = this.$selected.offsetLeft + this.$selected.offsetWidth / 2;
+                        var top = this.$selected.offsetTop + this.$selected.offsetHeight / 2;
 
-                        next = this.elementsAfter(left, 0).reduce(function (prev, curr) {
+                        next = this.elementsAfter(left, top).reduce(function (prev, curr) {
                             var currDistance = Math.abs(curr.offsetLeft - left) + Math.abs(curr.offsetTop - top);
                             if (currDistance > prev.distance) {
                                 return prev;
@@ -580,10 +581,10 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                             next = document.activeElement;
                         }
 
-                        var left = this.$selected.offsetLeft;
-                        var top = this.$selected.offsetTop + this.$selected.offsetHeight;
+                        var left = this.$selected.offsetLeft + this.$selected.offsetWidth / 2;
+                        var top = this.$selected.offsetTop + this.$selected.offsetHeight / 2;
 
-                        next = this.elementsAfter(0, top).reduce(function (prev, curr) {
+                        next = this.elementsAfter(left, top).reduce(function (prev, curr) {
                             var currDistance = Math.abs(curr.offsetLeft - left) + Math.abs(curr.offsetTop - top);
                             if (currDistance > prev.distance) {
                                 return prev;
