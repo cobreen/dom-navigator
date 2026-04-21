@@ -371,7 +371,8 @@
                     let top = this.$selected.offsetTop + (this.$selected.offsetHeight / 2);
 
                     next = this.elementsBefore(left, top).reduce((prev, curr) => {
-                        let currDistance = Math.abs(left - curr.offsetLeft) + Math.abs(top - curr.offsetTop);
+                        let currDistance = (Math.abs(top - curr.offsetTop));
+                        console.log({e: curr}, currDistance)
                         if (currDistance > prev.distance) {return prev;}
                         if (this.$options.autofocus && curr.disabled) {return prev;}
                         return {
