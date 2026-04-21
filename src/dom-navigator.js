@@ -302,10 +302,10 @@
                         next = document.activeElement;
                     }
 
-                    let left = this.$selected.offsetLeft - 1;
-                    let top = this.$selected.offsetTop;
+                    let left = this.$selected.offsetLeft + (this.$selected.offsetWidth / 2);
+                    let top = this.$selected.offsetTop + (this.$selected.offsetHeight / 2);
 
-                    next = this.elementsBefore(left, Infinity).reduce((prev, curr) => {
+                    next = this.elementsBefore(left, top).reduce((prev, curr) => {
                         let currDistance = Math.abs(left - curr.offsetLeft) + Math.abs(top - curr.offsetTop);
                         if (currDistance > prev.distance) {return prev;}
                         if (this.$options.autofocus && curr.disabled) {return prev;}
@@ -367,10 +367,10 @@
                         next = document.activeElement;
                     }
 
-                    let left = this.$selected.offsetLeft;
-                    let top = this.$selected.offsetTop - 1;
+                    let left = this.$selected.offsetLeft + (this.$selected.offsetWidth / 2);
+                    let top = this.$selected.offsetTop + (this.$selected.offsetHeight / 2);
 
-                    next = this.elementsBefore(Infinity, top).reduce((prev, curr) => {
+                    next = this.elementsBefore(left, top).reduce((prev, curr) => {
                         let currDistance = Math.abs(left - curr.offsetLeft) + Math.abs(top - curr.offsetTop);
                         if (currDistance > prev.distance) {return prev;}
                         if (this.$options.autofocus && curr.disabled) {return prev;}
@@ -432,10 +432,10 @@
                         next = document.activeElement;
                     }
 
-                    let left = this.$selected.offsetLeft + this.$selected.offsetWidth;
-                    let top = this.$selected.offsetTop;
+                    let left = this.$selected.offsetLeft + (this.$selected.offsetWidth / 2);
+                    let top = this.$selected.offsetTop + (this.$selected.offsetHeight / 2);
 
-                    next = this.elementsAfter(left, 0).reduce((prev, curr) => {
+                    next = this.elementsAfter(left, top).reduce((prev, curr) => {
                         let currDistance = Math.abs(curr.offsetLeft - left) + Math.abs(curr.offsetTop - top);
                         if (currDistance > prev.distance) {return prev;}
                         if (this.$options.autofocus && curr.disabled) {return prev;}
@@ -495,10 +495,10 @@
                         next = document.activeElement;
                     }
 
-                    let left = this.$selected.offsetLeft;
-                    let top = this.$selected.offsetTop + this.$selected.offsetHeight;
+                    let left = this.$selected.offsetLeft + (this.$selected.offsetWidth / 2);
+                    let top = this.$selected.offsetTop + (this.$selected.offsetHeight / 2);
 
-                    next = this.elementsAfter(0, top).reduce((prev, curr) => {
+                    next = this.elementsAfter(left, top).reduce((prev, curr) => {
                         let currDistance = Math.abs(curr.offsetLeft - left) + Math.abs(curr.offsetTop - top);
                         if (currDistance > prev.distance) {return prev;}
                         if (this.$options.autofocus && curr.disabled) {return prev;}
