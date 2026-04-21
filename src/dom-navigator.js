@@ -298,9 +298,9 @@
                         next = this.elements()[0];
                         break;
                     }
-                    if (this.$options.autofocus && this.elements().find((el) => el === document.activeElement)) {
-                        next = document.activeElement;
-                    }
+                    // if (this.$options.autofocus && this.elements().find((el) => el === document.activeElement)) {
+                    //     next = document.activeElement;
+                    // }
 
                     let left = this.$selected.offsetLeft + (this.$selected.offsetWidth / 2);
                     let top = this.$selected.offsetTop + (this.$selected.offsetHeight / 2);
@@ -363,14 +363,15 @@
                         next = this.elements()[0];
                         break;
                     }
-                    if (this.$options.autofocus && this.elements().find((el) => el === document.activeElement)) {
-                        next = document.activeElement;
-                    }
+                    // if (this.$options.autofocus && this.elements().find((el) => el === document.activeElement)) {
+                    //     next = document.activeElement;
+                    // }
 
                     let left = this.$selected.offsetLeft;
                     let top = this.$selected.offsetTop;
 
-                    console.log(this.$options, this.elements(), left, top);
+                    console.log("SELECTED", this.$selected, left, top);
+                    console.log(this.$options, this.elements());
                     next = this.elements().reduce((prev, curr) => {
                         let currDistance = Math.abs(left - curr.offsetLeft) + Math.abs(top - curr.offsetTop);
                         console.log({e: curr}, currDistance)
@@ -435,9 +436,9 @@
                         next = this.elements()[0];
                         break;
                     }
-                    if (this.$options.autofocus && this.elements().find((el) => el === document.activeElement)) {
-                        next = document.activeElement;
-                    }
+                    // if (this.$options.autofocus && this.elements().find((el) => el === document.activeElement)) {
+                    //     next = document.activeElement;
+                    // }
 
                     let left = this.$selected.offsetLeft + (this.$selected.offsetWidth / 2);
                     let top = this.$selected.offsetTop + (this.$selected.offsetHeight / 2);
@@ -498,9 +499,9 @@
                         next = this.elements()[0];
                         break;
                     }
-                    if (this.$options.autofocus && this.elements().find((el) => el === document.activeElement)) {
-                        next = document.activeElement;
-                    }
+                    // if (this.$options.autofocus && this.elements().find((el) => el === document.activeElement)) {
+                    //     next = document.activeElement;
+                    // }
 
                     let left = this.$selected.offsetLeft + (this.$selected.offsetWidth / 2);
                     let top = this.$selected.offsetTop + (this.$selected.offsetHeight / 2);

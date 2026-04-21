@@ -348,11 +348,9 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                             next = this.elements()[0];
                             break;
                         }
-                        if (this.$options.autofocus && this.elements().find(function (el) {
-                            return el === document.activeElement;
-                        })) {
-                            next = document.activeElement;
-                        }
+                        // if (this.$options.autofocus && this.elements().find((el) => el === document.activeElement)) {
+                        //     next = document.activeElement;
+                        // }
 
                         var left = this.$selected.offsetLeft + this.$selected.offsetWidth / 2;
                         var top = this.$selected.offsetTop + this.$selected.offsetHeight / 2;
@@ -424,16 +422,15 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                             next = this.elements()[0];
                             break;
                         }
-                        if (this.$options.autofocus && this.elements().find(function (el) {
-                            return el === document.activeElement;
-                        })) {
-                            next = document.activeElement;
-                        }
+                        // if (this.$options.autofocus && this.elements().find((el) => el === document.activeElement)) {
+                        //     next = document.activeElement;
+                        // }
 
                         var left = this.$selected.offsetLeft;
                         var top = this.$selected.offsetTop;
 
-                        console.log(this.$options, this.elements(), left, top);
+                        console.log("SELECTED", this.$selected, left, top);
+                        console.log(this.$options, this.elements());
                         next = this.elements().reduce(function (prev, curr) {
                             var currDistance = Math.abs(left - curr.offsetLeft) + Math.abs(top - curr.offsetTop);
                             console.log({ e: curr }, currDistance);
@@ -509,11 +506,9 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                             next = this.elements()[0];
                             break;
                         }
-                        if (this.$options.autofocus && this.elements().find(function (el) {
-                            return el === document.activeElement;
-                        })) {
-                            next = document.activeElement;
-                        }
+                        // if (this.$options.autofocus && this.elements().find((el) => el === document.activeElement)) {
+                        //     next = document.activeElement;
+                        // }
 
                         var left = this.$selected.offsetLeft + this.$selected.offsetWidth / 2;
                         var top = this.$selected.offsetTop + this.$selected.offsetHeight / 2;
@@ -583,11 +578,9 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                             next = this.elements()[0];
                             break;
                         }
-                        if (this.$options.autofocus && this.elements().find(function (el) {
-                            return el === document.activeElement;
-                        })) {
-                            next = document.activeElement;
-                        }
+                        // if (this.$options.autofocus && this.elements().find((el) => el === document.activeElement)) {
+                        //     next = document.activeElement;
+                        // }
 
                         var left = this.$selected.offsetLeft + this.$selected.offsetWidth / 2;
                         var top = this.$selected.offsetTop + this.$selected.offsetHeight / 2;
