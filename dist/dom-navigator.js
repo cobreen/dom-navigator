@@ -430,7 +430,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                             //somewhat in X bounds
                             el.offsetLeft + el.offsetWidth > left && left + width > el.offsetLeft && (
                             //non-disabled (when we care)
-                            !_this.$options.autofocus || !curr.disabled);
+                            !_this.$options.autofocus || !el.disabled);
                         })
                         //closest
                         .reduce(function (prev, curr) {

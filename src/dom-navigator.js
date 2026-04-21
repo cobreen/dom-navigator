@@ -379,7 +379,7 @@
                                     (el.offsetLeft + el.offsetWidth) > left &&
                                     (left + width) > el.offsetLeft &&
                                     //non-disabled (when we care)
-                                    (!this.$options.autofocus || !curr.disabled)
+                                    (!this.$options.autofocus || !el.disabled)
                         })
                         //closest
                         .reduce((prev, curr) => {
