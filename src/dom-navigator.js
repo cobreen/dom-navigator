@@ -645,13 +645,19 @@
          *
          * @return {Array} An array of elements.
          */
-        elements() {
+        elements(container = null) {
+            if (container === null) container = this.$container
             let children = [];
-            for (let i = this.$container.children.length; i--;) {
+            for (let i = container.children.length; i--;) {
                 // Skip comment nodes on IE8
-                if (this.$container.children[i].nodeType !== 8) {
-                    children.unshift(this.$container.children[i]);
+                if (container.children[i].nodeType === 8) {
+                    continue;
                 }
+                if (container.children[i].dataset.domNavigatorRecursive === "true") {
+                    children.unshift(...this.elements($container.children[i]));
+                    continue
+                }
+                children.unshift(this.$container.children[i]);
             }
             return children;
         }
