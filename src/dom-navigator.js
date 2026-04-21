@@ -298,21 +298,19 @@
                         next = this.elements()[0];
                         break;
                     }
-                    // if (this.$options.autofocus && this.elements().find((el) => el === document.activeElement)) {
-                    //     next = document.activeElement;
-                    // }
 
-                    let left = this.$selected.offsetLeft + (this.$selected.offsetWidth / 2);
-                    let top = this.$selected.offsetTop + (this.$selected.offsetHeight / 2);
+                    let left = this.$selected.offsetLeft - 1;
+                    let top = this.$selected.offsetTop;
 
-                    next = this.elementsBefore(left, top).reduce((prev, curr) => {
+                    next = this.elementsBefore(left, Infinity).reduce((prev, curr) => {
                         let currDistance = Math.abs(left - curr.offsetLeft) + Math.abs(top - curr.offsetTop);
-                        if (currDistance > prev.distance) {return prev;}
-                        if (this.$options.autofocus && curr.disabled) {return prev;}
-                        return {
-                            distance: currDistance,
-                            element: curr
-                        };
+                        if (currDistance < prev.distance) {
+                            return {
+                                distance: currDistance,
+                                element: curr
+                            };
+                        }
+                        return prev;
                     }, {
                         distance: Infinity
                     });
@@ -370,7 +368,7 @@
                     let left = this.$selected.offsetLeft;
                     let top = this.$selected.offsetTop;
 
-                    console.log("SELECTED", this.$selected, left, top);
+                    console.log("SELECTED1", this.$selected, left, top);
                     console.log(this.$options, this.elements());
                     next = this.elements().reduce((prev, curr) => {
                         let currDistance = Math.abs(left - curr.offsetLeft) + Math.abs(top - curr.offsetTop);
@@ -381,15 +379,15 @@
                         console.log("closer")
                         if (this.$options.autofocus && curr.disabled) {return prev;}
                         console.log("gotcha")
-                        return {
-                            distance: currDistance,
-                            element: curr
-                        };
+                            return {
+                                distance: currDistance,
+                                element: curr
+                            };
                     }, {
                         distance: Infinity
                     });
                     next = next.element;
-                    console.log("SELECTED", next)
+                    console.log("SELECTED2", next)
                     break;
 
                 case DomNavigator.MODE.horizontal:
@@ -436,21 +434,19 @@
                         next = this.elements()[0];
                         break;
                     }
-                    // if (this.$options.autofocus && this.elements().find((el) => el === document.activeElement)) {
-                    //     next = document.activeElement;
-                    // }
 
-                    let left = this.$selected.offsetLeft + (this.$selected.offsetWidth / 2);
-                    let top = this.$selected.offsetTop + (this.$selected.offsetHeight / 2);
+                    let left = this.$selected.offsetLeft + this.$selected.offsetWidth;
+                    let top = this.$selected.offsetTop;
 
-                    next = this.elementsAfter(left, top).reduce((prev, curr) => {
+                    next = this.elementsAfter(left, 0).reduce((prev, curr) => {
                         let currDistance = Math.abs(curr.offsetLeft - left) + Math.abs(curr.offsetTop - top);
-                        if (currDistance > prev.distance) {return prev;}
-                        if (this.$options.autofocus && curr.disabled) {return prev;}
-                        return {
-                            distance: currDistance,
-                            element: curr
-                        };
+                        if (currDistance < prev.distance) {
+                            return {
+                                distance: currDistance,
+                                element: curr
+                            };
+                        }
+                        return prev;
                     }, {
                         distance: Infinity
                     });
@@ -499,21 +495,19 @@
                         next = this.elements()[0];
                         break;
                     }
-                    // if (this.$options.autofocus && this.elements().find((el) => el === document.activeElement)) {
-                    //     next = document.activeElement;
-                    // }
 
-                    let left = this.$selected.offsetLeft + (this.$selected.offsetWidth / 2);
-                    let top = this.$selected.offsetTop + (this.$selected.offsetHeight / 2);
+                    let left = this.$selected.offsetLeft;
+                    let top = this.$selected.offsetTop + this.$selected.offsetHeight;
 
-                    next = this.elementsAfter(left, top).reduce((prev, curr) => {
+                    next = this.elementsAfter(0, top).reduce((prev, curr) => {
                         let currDistance = Math.abs(curr.offsetLeft - left) + Math.abs(curr.offsetTop - top);
-                        if (currDistance > prev.distance) {return prev;}
-                        if (this.$options.autofocus && curr.disabled) {return prev;}
-                        return {
-                            distance: currDistance,
-                            element: curr
-                        };
+                        if (currDistance < prev.distance) {
+                            return {
+                                distance: currDistance,
+                                element: curr
+                            };
+                        }
+                        return prev;
                     }, {
                         distance: Infinity
                     });
