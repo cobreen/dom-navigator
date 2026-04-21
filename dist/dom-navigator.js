@@ -433,7 +433,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                         var left = this.$selected.offsetLeft + this.$selected.offsetWidth / 2;
                         var top = this.$selected.offsetTop + this.$selected.offsetHeight / 2;
 
-                        console.log(this.elements(), left, top);
+                        console.log(this.$options, this.elements(), left, top);
                         next = this.elements().reduce(function (prev, curr) {
                             var currDistance = Math.abs(left - curr.offsetLeft) + Math.abs(top - curr.offsetTop);
                             console.log({ e: curr }, currDistance);

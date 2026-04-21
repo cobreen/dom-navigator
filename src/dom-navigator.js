@@ -370,7 +370,7 @@
                     let left = this.$selected.offsetLeft + (this.$selected.offsetWidth / 2);
                     let top = this.$selected.offsetTop + (this.$selected.offsetHeight / 2);
 
-                    console.log(this.elements(), left, top);
+                    console.log(this.$options, this.elements(), left, top);
                     next = this.elements().reduce((prev, curr) => {
                         let currDistance = Math.abs(left - curr.offsetLeft) + Math.abs(top - curr.offsetTop);
                         console.log({e: curr}, currDistance)
