@@ -1,14 +1,10 @@
-/*!
- * dom-navigator - v1.1.0 - 2018-10-07
- *
- * https://github.com/rmariuzzo/dom-navigator
- * Copyright (c) 2014, 2018 Rubens Mariuzzo Licensed MIT
- */
 'use strict';
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -716,12 +712,22 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         }, {
             key: 'elements',
             value: function elements() {
+                var container = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+
+                if (container === null) {
+                    container = this.$container;
+                }
                 var children = [];
-                for (var i = this.$container.children.length; i--;) {
+                for (var i = container.children.length; i--;) {
                     // Skip comment nodes on IE8
-                    if (this.$container.children[i].nodeType !== 8) {
-                        children.unshift(this.$container.children[i]);
+                    if (container.children[i].nodeType === 8) {
+                        continue;
                     }
+                    if (container.children[i].dataset.domNavigatorRecursive === "true") {
+                        children.unshift.apply(children, _toConsumableArray(this.elements(container.children[i])));
+                        continue;
+                    }
+                    children.unshift(container.children[i]);
                 }
                 return children;
             }

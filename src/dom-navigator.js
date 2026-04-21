@@ -646,7 +646,7 @@
          * @return {Array} An array of elements.
          */
         elements(container = null) {
-            if (container === null) container = this.$container
+            if (container === null) {container = this.$container;}
             let children = [];
             for (let i = container.children.length; i--;) {
                 // Skip comment nodes on IE8
@@ -654,10 +654,10 @@
                     continue;
                 }
                 if (container.children[i].dataset.domNavigatorRecursive === "true") {
-                    children.unshift(...this.elements($container.children[i]));
-                    continue
+                    children.unshift(...this.elements(container.children[i]));
+                    continue;
                 }
-                children.unshift(this.$container.children[i]);
+                children.unshift(container.children[i]);
             }
             return children;
         }
