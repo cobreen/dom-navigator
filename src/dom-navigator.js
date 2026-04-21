@@ -571,6 +571,7 @@
             // Select given element.
             addClass(el, this.$options.selected);
             this.$selected = el;
+            if (this.$options.autofocus);
             this.$selected.focus();
         }
 
