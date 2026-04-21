@@ -348,22 +348,24 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                             next = this.elements()[0];
                             break;
                         }
+                        if (this.$options.autofocus && this.$selected.dataset.domNavigatorLeft) {
+                            next = document.querySelector(this.$selected.dataset.domNavigatorLeft);
+                            break;
+                        }
 
                         var left = this.$selected.offsetLeft;
+                        var width = this.$selected.offsetWidth;
                         var top = this.$selected.offsetTop;
                         var height = this.$selected.offsetHeight;
 
                         next = this.elements().filter(function (el) {
                             //at least to the left
                             return el.offsetLeft < _this.$selected.offsetLeft && (
-                            // //somewhat in Y bounds
-                            // el.offsetTop >= top &&
-                            // (top + height) >= el.offsetTop &&
                             //non-disabled (when we care)
                             !_this.$options.autofocus || !el.disabled);
                         })
                         //closest
-                        .reduce(this.closestHorizontal.bind(null, top, left, height), {
+                        .reduce(this.closest.bind(null, top, left, height, width), {
                             distance: Infinity
                         });
                         next = next.element;
@@ -418,22 +420,24 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                             next = this.elements()[0];
                             break;
                         }
+                        if (this.$options.autofocus && this.$selected.dataset.domNavigatorUp) {
+                            next = document.querySelector(this.$selected.dataset.domNavigatorUp);
+                            break;
+                        }
 
                         var left = this.$selected.offsetLeft;
                         var width = this.$selected.offsetWidth;
                         var top = this.$selected.offsetTop;
+                        var height = this.$selected.offsetHeight;
 
                         next = this.elements().filter(function (el) {
                             //at least above
                             return el.offsetTop < _this2.$selected.offsetTop && (
-                            // //somewhat in X bounds
-                            // el.offsetLeft >= left &&
-                            // (left + width) >= el.offsetLeft &&
                             //non-disabled (when we care)
                             !_this2.$options.autofocus || !el.disabled);
                         })
                         //closest
-                        .reduce(this.closestVertical.bind(null, top, left, width), {
+                        .reduce(this.closest.bind(null, top, left, height, width), {
                             distance: Infinity
                         });
                         next = next.element;
@@ -488,22 +492,24 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                             next = this.elements()[0];
                             break;
                         }
+                        if (this.$options.autofocus && this.$selected.dataset.domNavigatorRight) {
+                            next = document.querySelector(this.$selected.dataset.domNavigatorRight);
+                            break;
+                        }
 
                         var left = this.$selected.offsetLeft;
+                        var width = this.$selected.offsetWidth;
                         var top = this.$selected.offsetTop;
                         var height = this.$selected.offsetHeight;
 
                         next = this.elements().filter(function (el) {
                             //at least to the right
                             return el.offsetLeft > _this3.$selected.offsetLeft && (
-                            // //somewhat in Y bounds
-                            // el.offsetTop >= top &&
-                            // (top + height) >= el.offsetTop &&
                             //non-disabled (when we care)
                             !_this3.$options.autofocus || !el.disabled);
                         })
                         //closest
-                        .reduce(this.closestHorizontal.bind(null, top, left, height), {
+                        .reduce(this.closest.bind(null, top, left, height, width), {
                             distance: Infinity
                         });
                         next = next.element;
@@ -556,22 +562,24 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                             next = this.elements()[0];
                             break;
                         }
+                        if (this.$options.autofocus && this.$selected.dataset.domNavigatorDown) {
+                            next = document.querySelector(this.$selected.dataset.domNavigatorDown);
+                            break;
+                        }
 
                         var left = this.$selected.offsetLeft;
                         var width = this.$selected.offsetWidth;
                         var top = this.$selected.offsetTop;
+                        var height = this.$selected.offsetHeight;
 
                         next = this.elements().filter(function (el) {
                             //at least below
                             return el.offsetTop > _this4.$selected.offsetTop && (
-                            // //somewhat in X bounds
-                            // el.offsetLeft >= left &&
-                            // (left + width) >= el.offsetLeft &&
                             //non-disabled (when we care)
                             !_this4.$options.autofocus || !el.disabled);
                         })
                         //closest
-                        .reduce(this.closestVertical.bind(null, top, left, width), {
+                        .reduce(this.closest.bind(null, top, left, height, width), {
                             distance: Infinity
                         });
                         next = next.element;
@@ -606,22 +614,9 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                 this.select(next, DomNavigator.DIRECTION.down);
             }
         }, {
-            key: 'closestVertical',
-            value: function closestVertical(top, left, width, prev, curr) {
-                var currDistance = Math.abs(top - curr.offsetTop);
-                //isn't closer
-                if (currDistance > prev.distance) {
-                    return prev;
-                }
-                return {
-                    distance: currDistance,
-                    element: curr
-                };
-            }
-        }, {
-            key: 'closestHorizontal',
-            value: function closestHorizontal(top, left, height, prev, curr) {
-                var currDistance = Math.abs(left - curr.offsetLeft);
+            key: 'closest',
+            value: function closest(top, left, height, width, prev, curr) {
+                var currDistance = Math.abs(top - curr.offsetTop) + Math.abs(left - curr.offsetLeft);
                 //isn't closer
                 if (currDistance > prev.distance) {
                     return prev;
@@ -665,6 +660,9 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                 // Unselect previous element.
                 if (this.$selected) {
                     removeClass(this.$selected, this.$options.selected);
+                    if (this.$options.autofocus) {
+                        this.$selected.blur();
+                    }
                 }
 
                 // Scroll to given element.
@@ -672,9 +670,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
                 // Select given element.
                 addClass(el, this.$options.selected);
-                if (this.$options.autofocus && this.$selected) {
-                    this.$selected.blur();
-                }
                 this.$selected = el;
                 if (this.$options.autofocus) {
                     this.$selected.focus();

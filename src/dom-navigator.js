@@ -298,8 +298,13 @@
                         next = this.elements()[0];
                         break;
                     }
+                    if (this.$options.autofocus && this.$selected.dataset.domNavigatorLeft) {
+                        next = document.querySelector(this.$selected.dataset.domNavigatorLeft);
+                        break;
+                    }
 
                     let left = this.$selected.offsetLeft;
+                    let width = this.$selected.offsetWidth;
                     let top = this.$selected.offsetTop;
                     let height = this.$selected.offsetHeight;
 
@@ -307,14 +312,11 @@
                         .filter((el) => {
                             //at least to the left
                             return  el.offsetLeft < this.$selected.offsetLeft &&
-                                // //somewhat in Y bounds
-                                // el.offsetTop >= top &&
-                                // (top + height) >= el.offsetTop &&
-                                //non-disabled (when we care)
-                                (!this.$options.autofocus || !el.disabled);
+                                    //non-disabled (when we care)
+                                    (!this.$options.autofocus || !el.disabled);
                         })
                         //closest
-                        .reduce(this.closestHorizontal.bind(null, top,left,height), {
+                        .reduce(this.closest.bind(null, top,left,height,width), {
                             distance: Infinity
                         });
                     next = next.element;
@@ -364,23 +366,25 @@
                         next = this.elements()[0];
                         break;
                     }
+                    if (this.$options.autofocus && this.$selected.dataset.domNavigatorUp) {
+                        next = document.querySelector(this.$selected.dataset.domNavigatorUp);
+                        break;
+                    }
 
                     let left = this.$selected.offsetLeft;
                     let width = this.$selected.offsetWidth;
                     let top = this.$selected.offsetTop;
+                    let height = this.$selected.offsetHeight;
 
                     next = this.elements()
                         .filter((el) => {
                                     //at least above
                             return  el.offsetTop < this.$selected.offsetTop &&
-                                    // //somewhat in X bounds
-                                    // el.offsetLeft >= left &&
-                                    // (left + width) >= el.offsetLeft &&
                                     //non-disabled (when we care)
                                     (!this.$options.autofocus || !el.disabled);
                         })
                         //closest
-                        .reduce(this.closestVertical.bind(null, top,left,width), {
+                        .reduce(this.closest.bind(null, top,left,height,width), {
                             distance: Infinity
                         });
                     next = next.element;
@@ -430,8 +434,13 @@
                         next = this.elements()[0];
                         break;
                     }
+                    if (this.$options.autofocus && this.$selected.dataset.domNavigatorRight) {
+                        next = document.querySelector(this.$selected.dataset.domNavigatorRight);
+                        break;
+                    }
 
                     let left = this.$selected.offsetLeft;
+                    let width = this.$selected.offsetWidth;
                     let top = this.$selected.offsetTop;
                     let height = this.$selected.offsetHeight;
 
@@ -439,14 +448,11 @@
                         .filter((el) => {
                             //at least to the right
                             return  el.offsetLeft > this.$selected.offsetLeft &&
-                                // //somewhat in Y bounds
-                                // el.offsetTop >= top &&
-                                // (top + height) >= el.offsetTop &&
-                                //non-disabled (when we care)
-                                (!this.$options.autofocus || !el.disabled);
+                                    //non-disabled (when we care)
+                                    (!this.$options.autofocus || !el.disabled);
                         })
                         //closest
-                        .reduce(this.closestHorizontal.bind(null, top,left,height), {
+                        .reduce(this.closest.bind(null, top,left,height,width), {
                             distance: Infinity
                         });
                     next = next.element;
@@ -494,23 +500,25 @@
                         next = this.elements()[0];
                         break;
                     }
+                    if (this.$options.autofocus && this.$selected.dataset.domNavigatorDown) {
+                        next = document.querySelector(this.$selected.dataset.domNavigatorDown);
+                        break;
+                    }
 
                     let left = this.$selected.offsetLeft;
                     let width = this.$selected.offsetWidth;
                     let top = this.$selected.offsetTop;
+                    let height = this.$selected.offsetHeight;
 
                     next = this.elements()
                         .filter((el) => {
                             //at least below
                             return  el.offsetTop > this.$selected.offsetTop &&
-                                // //somewhat in X bounds
-                                // el.offsetLeft >= left &&
-                                // (left + width) >= el.offsetLeft &&
                                 //non-disabled (when we care)
                                 (!this.$options.autofocus || !el.disabled);
                         })
                         //closest
-                        .reduce(this.closestVertical.bind(null, top,left,width), {
+                        .reduce(this.closest.bind(null, top,left,height,width), {
                             distance: Infinity
                         });
                     next = next.element;
@@ -545,18 +553,8 @@
             this.select(next, DomNavigator.DIRECTION.down);
         }
 
-        closestVertical(top, left, width, prev, curr) {
-            let currDistance = Math.abs(top - curr.offsetTop);
-            //isn't closer
-            if (currDistance > prev.distance) {return prev;}
-            return {
-                distance: currDistance,
-                element: curr
-            };
-        }
-
-        closestHorizontal(top, left, height, prev, curr) {
-            let currDistance = Math.abs(left - curr.offsetLeft);
+        closest(top, left, height, width, prev, curr) {
+            let currDistance = Math.abs(top - curr.offsetTop) + Math.abs(left - curr.offsetLeft);
             //isn't closer
             if (currDistance > prev.distance) {return prev;}
             return {
@@ -592,6 +590,7 @@
             // Unselect previous element.
             if (this.$selected) {
                 removeClass(this.$selected, this.$options.selected);
+                if (this.$options.autofocus) {this.$selected.blur();}
             }
 
             // Scroll to given element.
@@ -599,9 +598,6 @@
 
             // Select given element.
             addClass(el, this.$options.selected);
-            if (this.$options.autofocus && this.$selected) {
-                this.$selected.blur();
-            }
             this.$selected = el;
             if (this.$options.autofocus) {
                 this.$selected.focus();
