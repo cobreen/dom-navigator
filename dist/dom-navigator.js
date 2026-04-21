@@ -640,7 +640,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
                 // Select given element.
                 addClass(el, this.$options.selected);
-                if (this.$options.autofocus) {
+                if (this.$options.autofocus && this.$selected) {
                     this.$selected.blur();
                 }
                 this.$selected = el;
