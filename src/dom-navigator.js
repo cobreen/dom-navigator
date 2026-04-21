@@ -308,7 +308,7 @@
                             //at least to the left
                             return  el.offsetLeft < this.$selected.offsetLeft &&
                                 //somewhat in Y bounds
-                                (el.offsetTop + el.offsetHeight) > top &&
+                                el.offsetTop > top &&
                                 (top + height) > el.offsetTop &&
                                 //non-disabled (when we care)
                                 (!this.$options.autofocus || !el.disabled);
@@ -382,7 +382,7 @@
                                     //at least above
                             return  el.offsetTop < this.$selected.offsetTop &&
                                     //somewhat in X bounds
-                                    (el.offsetLeft + el.offsetWidth) > left &&
+                                    el.offsetLeft > left &&
                                     (left + width) > el.offsetLeft &&
                                     //non-disabled (when we care)
                                     (!this.$options.autofocus || !el.disabled);
@@ -456,7 +456,7 @@
                             //at least to the right
                             return  el.offsetLeft > this.$selected.offsetLeft &&
                                 //somewhat in Y bounds
-                                (el.offsetTop + el.offsetHeight) > top &&
+                                el.offsetTop > top &&
                                 (top + height) > el.offsetTop &&
                                 //non-disabled (when we care)
                                 (!this.$options.autofocus || !el.disabled);
