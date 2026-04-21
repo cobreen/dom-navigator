@@ -669,6 +669,7 @@
         elements(container = null) {
             if (container === null) {container = this.$container;}
             let children = [];
+            console.log("cont", {e:container});
             for (let i = container.children.length; i--;) {
                 // Skip comment nodes on IE8
                 if (container.children[i].nodeType === 8) {

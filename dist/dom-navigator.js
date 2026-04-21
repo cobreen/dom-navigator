@@ -779,6 +779,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                     container = this.$container;
                 }
                 var children = [];
+                console.log("cont", { e: container });
                 for (var i = container.children.length; i--;) {
                     // Skip comment nodes on IE8
                     if (container.children[i].nodeType === 8) {
