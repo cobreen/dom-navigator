@@ -307,22 +307,14 @@
                         .filter((el) => {
                             //at least to the left
                             return  el.offsetLeft < this.$selected.offsetLeft &&
-                                //somewhat in Y bounds
-                                el.offsetTop >= top &&
-                                (top + height) >= el.offsetTop &&
+                                // //somewhat in Y bounds
+                                // el.offsetTop >= top &&
+                                // (top + height) >= el.offsetTop &&
                                 //non-disabled (when we care)
                                 (!this.$options.autofocus || !el.disabled);
                         })
                         //closest
-                        .reduce((prev, curr) => {
-                            let currDistance = Math.abs(left - curr.offsetLeft);
-                            //isn't closer
-                            if (currDistance > prev.distance) {return prev;}
-                            return {
-                                distance: currDistance,
-                                element: curr
-                            };
-                        }, {
+                        .reduce(this.closestHorizontal.bind(null, top,left,height), {
                             distance: Infinity
                         });
                     next = next.element;
@@ -381,22 +373,14 @@
                         .filter((el) => {
                                     //at least above
                             return  el.offsetTop < this.$selected.offsetTop &&
-                                    //somewhat in X bounds
-                                    el.offsetLeft >= left &&
-                                    (left + width) >= el.offsetLeft &&
+                                    // //somewhat in X bounds
+                                    // el.offsetLeft >= left &&
+                                    // (left + width) >= el.offsetLeft &&
                                     //non-disabled (when we care)
                                     (!this.$options.autofocus || !el.disabled);
                         })
                         //closest
-                        .reduce((prev, curr) => {
-                            let currDistance = Math.abs(top - curr.offsetTop);
-                            //isn't closer
-                            if (currDistance > prev.distance) {return prev;}
-                            return {
-                                distance: currDistance,
-                                element: curr
-                            };
-                        }, {
+                        .reduce(this.closestVertical.bind(null, top,left,width), {
                             distance: Infinity
                         });
                     next = next.element;
@@ -455,22 +439,14 @@
                         .filter((el) => {
                             //at least to the right
                             return  el.offsetLeft > this.$selected.offsetLeft &&
-                                //somewhat in Y bounds
-                                el.offsetTop >= top &&
-                                (top + height) >= el.offsetTop &&
+                                // //somewhat in Y bounds
+                                // el.offsetTop >= top &&
+                                // (top + height) >= el.offsetTop &&
                                 //non-disabled (when we care)
                                 (!this.$options.autofocus || !el.disabled);
                         })
                         //closest
-                        .reduce((prev, curr) => {
-                            let currDistance = Math.abs(left - curr.offsetLeft);
-                            //isn't closer
-                            if (currDistance > prev.distance) {return prev;}
-                            return {
-                                distance: currDistance,
-                                element: curr
-                            };
-                        }, {
+                        .reduce(this.closestHorizontal.bind(null, top,left,height), {
                             distance: Infinity
                         });
                     next = next.element;
@@ -527,22 +503,14 @@
                         .filter((el) => {
                             //at least below
                             return  el.offsetTop > this.$selected.offsetTop &&
-                                //somewhat in X bounds
-                                el.offsetLeft >= left &&
-                                (left + width) >= el.offsetLeft &&
+                                // //somewhat in X bounds
+                                // el.offsetLeft >= left &&
+                                // (left + width) >= el.offsetLeft &&
                                 //non-disabled (when we care)
                                 (!this.$options.autofocus || !el.disabled);
                         })
                         //closest
-                        .reduce((prev, curr) => {
-                            let currDistance = Math.abs(top - curr.offsetTop);
-                            //isn't closer
-                            if (currDistance > prev.distance) {return prev;}
-                            return {
-                                distance: currDistance,
-                                element: curr
-                            };
-                        }, {
+                        .reduce(this.closestVertical.bind(null, top,left,width), {
                             distance: Infinity
                         });
                     next = next.element;
@@ -575,6 +543,26 @@
             }
 
             this.select(next, DomNavigator.DIRECTION.down);
+        }
+
+        closestVertical(top, left, width, prev, curr) {
+            let currDistance = Math.abs(top - curr.offsetTop);
+            //isn't closer
+            if (currDistance > prev.distance) {return prev;}
+            return {
+                distance: currDistance,
+                element: curr
+            };
+        }
+
+        closestHorizontal(top, left, height, prev, curr) {
+            let currDistance = Math.abs(left - curr.offsetLeft);
+            //isn't closer
+            if (currDistance > prev.distance) {return prev;}
+            return {
+                distance: currDistance,
+                element: curr
+            };
         }
 
         /**

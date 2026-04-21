@@ -355,24 +355,15 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
                         next = this.elements().filter(function (el) {
                             //at least to the left
-                            return el.offsetLeft < _this.$selected.offsetLeft &&
-                            //somewhat in Y bounds
-                            el.offsetTop >= top && top + height >= el.offsetTop && (
+                            return el.offsetLeft < _this.$selected.offsetLeft && (
+                            // //somewhat in Y bounds
+                            // el.offsetTop >= top &&
+                            // (top + height) >= el.offsetTop &&
                             //non-disabled (when we care)
                             !_this.$options.autofocus || !el.disabled);
                         })
                         //closest
-                        .reduce(function (prev, curr) {
-                            var currDistance = Math.abs(left - curr.offsetLeft);
-                            //isn't closer
-                            if (currDistance > prev.distance) {
-                                return prev;
-                            }
-                            return {
-                                distance: currDistance,
-                                element: curr
-                            };
-                        }, {
+                        .reduce(this.closestHorizontal.bind(null, top, left, height), {
                             distance: Infinity
                         });
                         next = next.element;
@@ -434,24 +425,15 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
                         next = this.elements().filter(function (el) {
                             //at least above
-                            return el.offsetTop < _this2.$selected.offsetTop &&
-                            //somewhat in X bounds
-                            el.offsetLeft >= left && left + width >= el.offsetLeft && (
+                            return el.offsetTop < _this2.$selected.offsetTop && (
+                            // //somewhat in X bounds
+                            // el.offsetLeft >= left &&
+                            // (left + width) >= el.offsetLeft &&
                             //non-disabled (when we care)
                             !_this2.$options.autofocus || !el.disabled);
                         })
                         //closest
-                        .reduce(function (prev, curr) {
-                            var currDistance = Math.abs(top - curr.offsetTop);
-                            //isn't closer
-                            if (currDistance > prev.distance) {
-                                return prev;
-                            }
-                            return {
-                                distance: currDistance,
-                                element: curr
-                            };
-                        }, {
+                        .reduce(this.closestVertical.bind(null, top, left, width), {
                             distance: Infinity
                         });
                         next = next.element;
@@ -513,24 +495,15 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
                         next = this.elements().filter(function (el) {
                             //at least to the right
-                            return el.offsetLeft > _this3.$selected.offsetLeft &&
-                            //somewhat in Y bounds
-                            el.offsetTop >= top && top + height >= el.offsetTop && (
+                            return el.offsetLeft > _this3.$selected.offsetLeft && (
+                            // //somewhat in Y bounds
+                            // el.offsetTop >= top &&
+                            // (top + height) >= el.offsetTop &&
                             //non-disabled (when we care)
                             !_this3.$options.autofocus || !el.disabled);
                         })
                         //closest
-                        .reduce(function (prev, curr) {
-                            var currDistance = Math.abs(left - curr.offsetLeft);
-                            //isn't closer
-                            if (currDistance > prev.distance) {
-                                return prev;
-                            }
-                            return {
-                                distance: currDistance,
-                                element: curr
-                            };
-                        }, {
+                        .reduce(this.closestHorizontal.bind(null, top, left, height), {
                             distance: Infinity
                         });
                         next = next.element;
@@ -590,24 +563,15 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
                         next = this.elements().filter(function (el) {
                             //at least below
-                            return el.offsetTop > _this4.$selected.offsetTop &&
-                            //somewhat in X bounds
-                            el.offsetLeft >= left && left + width >= el.offsetLeft && (
+                            return el.offsetTop > _this4.$selected.offsetTop && (
+                            // //somewhat in X bounds
+                            // el.offsetLeft >= left &&
+                            // (left + width) >= el.offsetLeft &&
                             //non-disabled (when we care)
                             !_this4.$options.autofocus || !el.disabled);
                         })
                         //closest
-                        .reduce(function (prev, curr) {
-                            var currDistance = Math.abs(top - curr.offsetTop);
-                            //isn't closer
-                            if (currDistance > prev.distance) {
-                                return prev;
-                            }
-                            return {
-                                distance: currDistance,
-                                element: curr
-                            };
-                        }, {
+                        .reduce(this.closestVertical.bind(null, top, left, width), {
                             distance: Infinity
                         });
                         next = next.element;
@@ -640,6 +604,32 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                 }
 
                 this.select(next, DomNavigator.DIRECTION.down);
+            }
+        }, {
+            key: 'closestVertical',
+            value: function closestVertical(top, left, width, prev, curr) {
+                var currDistance = Math.abs(top - curr.offsetTop);
+                //isn't closer
+                if (currDistance > prev.distance) {
+                    return prev;
+                }
+                return {
+                    distance: currDistance,
+                    element: curr
+                };
+            }
+        }, {
+            key: 'closestHorizontal',
+            value: function closestHorizontal(top, left, height, prev, curr) {
+                var currDistance = Math.abs(left - curr.offsetLeft);
+                //isn't closer
+                if (currDistance > prev.distance) {
+                    return prev;
+                }
+                return {
+                    distance: currDistance,
+                    element: curr
+                };
             }
 
             /**
