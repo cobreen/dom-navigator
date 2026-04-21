@@ -1,5 +1,5 @@
 /*!
- * dom-navigator - v1.1.0 - 2026-04-21
+ * dom-navigator - v1.1.0 - 2026-04-22
  *
  * https://github.com/rmariuzzo/dom-navigator
  * Copyright (c) 2014, 2026 Rubens Mariuzzo Licensed MIT
@@ -40,7 +40,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
      * @returns {Object}
      */
 
-    var _this2 = this;
+    var _this5 = this;
 
     function extend(out) {
         out = out || {};
@@ -337,6 +337,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         }, {
             key: 'left',
             value: function left() {
+                var _this = this;
+
                 var next = null;
 
                 switch (this.$options.mode) {
@@ -347,18 +349,29 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                             break;
                         }
 
-                        var left = this.$selected.offsetLeft - 1;
+                        var left = this.$selected.offsetLeft;
                         var top = this.$selected.offsetTop;
+                        var height = this.$selected.offsetHeight;
 
-                        next = this.elementsBefore(left, Infinity).reduce(function (prev, curr) {
-                            var currDistance = Math.abs(left - curr.offsetLeft) + Math.abs(top - curr.offsetTop);
-                            if (currDistance < prev.distance) {
-                                return {
-                                    distance: currDistance,
-                                    element: curr
-                                };
+                        next = this.elements().filter(function (el) {
+                            //at least to the left
+                            return el.offsetLeft < _this.$selected.offsetLeft &&
+                            //somewhat in Y bounds
+                            el.offsetTop + el.offsetHeight > top && top + height > el.offsetTop && (
+                            //non-disabled (when we care)
+                            !_this.$options.autofocus || !el.disabled);
+                        })
+                        //closest
+                        .reduce(function (prev, curr) {
+                            var currDistance = Math.abs(left - curr.offsetLeft);
+                            //isn't closer
+                            if (currDistance > prev.distance) {
+                                return prev;
                             }
-                            return prev;
+                            return {
+                                distance: currDistance,
+                                element: curr
+                            };
                         }, {
                             distance: Infinity
                         });
@@ -403,7 +416,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         }, {
             key: 'up',
             value: function up() {
-                var _this = this;
+                var _this2 = this;
 
                 var next = null;
 
@@ -414,33 +427,26 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                             next = this.elements()[0];
                             break;
                         }
-                        // if (this.$options.autofocus && this.elements().find((el) => el === document.activeElement)) {
-                        //     next = document.activeElement;
-                        // }
 
                         var left = this.$selected.offsetLeft;
                         var width = this.$selected.offsetWidth;
                         var top = this.$selected.offsetTop;
 
-                        console.log("SELECTED1", this.$selected, left, top);
-                        console.log(this.$options, this.elements());
                         next = this.elements().filter(function (el) {
                             //at least above
-                            return el.offsetTop < _this.$selected.offsetTop &&
+                            return el.offsetTop < _this2.$selected.offsetTop &&
                             //somewhat in X bounds
                             el.offsetLeft + el.offsetWidth > left && left + width > el.offsetLeft && (
                             //non-disabled (when we care)
-                            !_this.$options.autofocus || !el.disabled);
+                            !_this2.$options.autofocus || !el.disabled);
                         })
                         //closest
                         .reduce(function (prev, curr) {
                             var currDistance = Math.abs(top - curr.offsetTop);
-                            console.log({ e: curr }, currDistance);
                             //isn't closer
                             if (currDistance > prev.distance) {
                                 return prev;
                             }
-                            console.log("closer");
                             return {
                                 distance: currDistance,
                                 element: curr
@@ -449,7 +455,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                             distance: Infinity
                         });
                         next = next.element;
-                        console.log("SELECTED2", next);
                         break;
 
                     case DomNavigator.MODE.horizontal:
@@ -490,6 +495,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         }, {
             key: 'right',
             value: function right() {
+                var _this3 = this;
+
                 var next = null;
 
                 switch (this.$options.mode) {
@@ -500,18 +507,29 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                             break;
                         }
 
-                        var left = this.$selected.offsetLeft + this.$selected.offsetWidth;
+                        var left = this.$selected.offsetLeft;
                         var top = this.$selected.offsetTop;
+                        var height = this.$selected.offsetHeight;
 
-                        next = this.elementsAfter(left, 0).reduce(function (prev, curr) {
-                            var currDistance = Math.abs(curr.offsetLeft - left) + Math.abs(curr.offsetTop - top);
-                            if (currDistance < prev.distance) {
-                                return {
-                                    distance: currDistance,
-                                    element: curr
-                                };
+                        next = this.elements().filter(function (el) {
+                            //at least to the right
+                            return el.offsetLeft > _this3.$selected.offsetLeft &&
+                            //somewhat in Y bounds
+                            el.offsetTop + el.offsetHeight > top && top + height > el.offsetTop && (
+                            //non-disabled (when we care)
+                            !_this3.$options.autofocus || !el.disabled);
+                        })
+                        //closest
+                        .reduce(function (prev, curr) {
+                            var currDistance = Math.abs(left - curr.offsetLeft);
+                            //isn't closer
+                            if (currDistance > prev.distance) {
+                                return prev;
                             }
-                            return prev;
+                            return {
+                                distance: currDistance,
+                                element: curr
+                            };
                         }, {
                             distance: Infinity
                         });
@@ -554,6 +572,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         }, {
             key: 'down',
             value: function down() {
+                var _this4 = this;
+
                 var next = null;
 
                 switch (this.$options.mode) {
@@ -565,17 +585,28 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                         }
 
                         var left = this.$selected.offsetLeft;
-                        var top = this.$selected.offsetTop + this.$selected.offsetHeight;
+                        var width = this.$selected.offsetWidth;
+                        var top = this.$selected.offsetTop;
 
-                        next = this.elementsAfter(0, top).reduce(function (prev, curr) {
-                            var currDistance = Math.abs(curr.offsetLeft - left) + Math.abs(curr.offsetTop - top);
-                            if (currDistance < prev.distance) {
-                                return {
-                                    distance: currDistance,
-                                    element: curr
-                                };
+                        next = this.elements().filter(function (el) {
+                            //at least below
+                            return el.offsetTop > _this4.$selected.offsetTop &&
+                            //somewhat in X bounds
+                            el.offsetLeft + el.offsetWidth > left && left + width > el.offsetLeft && (
+                            //non-disabled (when we care)
+                            !_this4.$options.autofocus || !el.disabled);
+                        })
+                        //closest
+                        .reduce(function (prev, curr) {
+                            var currDistance = Math.abs(top - curr.offsetTop);
+                            //isn't closer
+                            if (currDistance > prev.distance) {
+                                return prev;
                             }
-                            return prev;
+                            return {
+                                distance: currDistance,
+                                element: curr
+                            };
                         }, {
                             distance: Infinity
                         });
@@ -752,7 +783,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                     container = this.$container;
                 }
                 var children = [];
-                console.log("cont", { e: container });
                 for (var i = container.children.length; i--;) {
                     // Skip comment nodes on IE8
                     if (container.children[i].nodeType === 8) {
@@ -868,7 +898,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
         $.fn.domNavigator.noConflict = function () {
             $.fn.domNavigator = old;
-            return _this2;
+            return _this5;
         };
     }
 });
