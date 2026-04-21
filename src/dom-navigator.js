@@ -299,21 +299,32 @@
                         break;
                     }
 
-                    let left = this.$selected.offsetLeft - 1;
+                    let left = this.$selected.offsetLeft;
                     let top = this.$selected.offsetTop;
+                    let height = this.$selected.offsetHeight;
 
-                    next = this.elementsBefore(left, Infinity).reduce((prev, curr) => {
-                        let currDistance = Math.abs(left - curr.offsetLeft) + Math.abs(top - curr.offsetTop);
-                        if (currDistance < prev.distance) {
+                    next = this.elements()
+                        .filter((el) => {
+                            //at least to the left
+                            return  el.offsetLeft < this.$selected.offsetLeft &&
+                                //somewhat in Y bounds
+                                (el.offsetTop + el.offsetHeight) > top &&
+                                (top + height) > el.offsetTop &&
+                                //non-disabled (when we care)
+                                (!this.$options.autofocus || !el.disabled);
+                        })
+                        //closest
+                        .reduce((prev, curr) => {
+                            let currDistance = Math.abs(left - curr.offsetLeft);
+                            //isn't closer
+                            if (currDistance > prev.distance) {return prev;}
                             return {
                                 distance: currDistance,
                                 element: curr
                             };
-                        }
-                        return prev;
-                    }, {
-                        distance: Infinity
-                    });
+                        }, {
+                            distance: Infinity
+                        });
                     next = next.element;
                     break;
 
@@ -361,16 +372,11 @@
                         next = this.elements()[0];
                         break;
                     }
-                    // if (this.$options.autofocus && this.elements().find((el) => el === document.activeElement)) {
-                    //     next = document.activeElement;
-                    // }
 
                     let left = this.$selected.offsetLeft;
                     let width = this.$selected.offsetWidth;
                     let top = this.$selected.offsetTop;
 
-                    console.log("SELECTED1", this.$selected, left, top);
-                    console.log(this.$options, this.elements());
                     next = this.elements()
                         .filter((el) => {
                                     //at least above
@@ -379,15 +385,13 @@
                                     (el.offsetLeft + el.offsetWidth) > left &&
                                     (left + width) > el.offsetLeft &&
                                     //non-disabled (when we care)
-                                    (!this.$options.autofocus || !el.disabled)
+                                    (!this.$options.autofocus || !el.disabled);
                         })
                         //closest
                         .reduce((prev, curr) => {
                             let currDistance = Math.abs(top - curr.offsetTop);
-                            console.log({e: curr}, currDistance)
                             //isn't closer
                             if (currDistance > prev.distance) {return prev;}
-                            console.log("closer")
                             return {
                                 distance: currDistance,
                                 element: curr
@@ -396,7 +400,6 @@
                             distance: Infinity
                         });
                     next = next.element;
-                    console.log("SELECTED2", next)
                     break;
 
                 case DomNavigator.MODE.horizontal:
@@ -444,21 +447,32 @@
                         break;
                     }
 
-                    let left = this.$selected.offsetLeft + this.$selected.offsetWidth;
+                    let left = this.$selected.offsetLeft;
                     let top = this.$selected.offsetTop;
+                    let height = this.$selected.offsetHeight;
 
-                    next = this.elementsAfter(left, 0).reduce((prev, curr) => {
-                        let currDistance = Math.abs(curr.offsetLeft - left) + Math.abs(curr.offsetTop - top);
-                        if (currDistance < prev.distance) {
+                    next = this.elements()
+                        .filter((el) => {
+                            //at least to the right
+                            return  el.offsetLeft > this.$selected.offsetLeft &&
+                                //somewhat in Y bounds
+                                (el.offsetTop + el.offsetHeight) > top &&
+                                (top + height) > el.offsetTop &&
+                                //non-disabled (when we care)
+                                (!this.$options.autofocus || !el.disabled);
+                        })
+                        //closest
+                        .reduce((prev, curr) => {
+                            let currDistance = Math.abs(left - curr.offsetLeft);
+                            //isn't closer
+                            if (currDistance > prev.distance) {return prev;}
                             return {
                                 distance: currDistance,
                                 element: curr
                             };
-                        }
-                        return prev;
-                    }, {
-                        distance: Infinity
-                    });
+                        }, {
+                            distance: Infinity
+                        });
                     next = next.element;
                     break;
 
@@ -506,20 +520,31 @@
                     }
 
                     let left = this.$selected.offsetLeft;
-                    let top = this.$selected.offsetTop + this.$selected.offsetHeight;
+                    let width = this.$selected.offsetWidth;
+                    let top = this.$selected.offsetTop;
 
-                    next = this.elementsAfter(0, top).reduce((prev, curr) => {
-                        let currDistance = Math.abs(curr.offsetLeft - left) + Math.abs(curr.offsetTop - top);
-                        if (currDistance < prev.distance) {
+                    next = this.elements()
+                        .filter((el) => {
+                            //at least below
+                            return  el.offsetTop > this.$selected.offsetTop &&
+                                //somewhat in X bounds
+                                (el.offsetLeft + el.offsetWidth) > left &&
+                                (left + width) > el.offsetLeft &&
+                                //non-disabled (when we care)
+                                (!this.$options.autofocus || !el.disabled);
+                        })
+                        //closest
+                        .reduce((prev, curr) => {
+                            let currDistance = Math.abs(top - curr.offsetTop);
+                            //isn't closer
+                            if (currDistance > prev.distance) {return prev;}
                             return {
                                 distance: currDistance,
                                 element: curr
                             };
-                        }
-                        return prev;
-                    }, {
-                        distance: Infinity
-                    });
+                        }, {
+                            distance: Infinity
+                        });
                     next = next.element;
                     break;
 
@@ -674,7 +699,6 @@
         elements(container = null) {
             if (container === null) {container = this.$container;}
             let children = [];
-            console.log("cont", {e:container});
             for (let i = container.children.length; i--;) {
                 // Skip comment nodes on IE8
                 if (container.children[i].nodeType === 8) {
