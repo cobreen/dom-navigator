@@ -433,17 +433,22 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                         var left = this.$selected.offsetLeft + this.$selected.offsetWidth / 2;
                         var top = this.$selected.offsetTop + this.$selected.offsetHeight / 2;
 
-                        console.log(this.elements());
-                        console.log(this.elementsBefore(left, top), left, top);
-                        next = this.elementsBefore(left, top).reduce(function (prev, curr) {
-                            var currDistance = Math.abs(top - curr.offsetTop);
+                        console.log(this.elements(), left, top);
+                        next = this.elements(left, top).reduce(function (prev, curr) {
+                            var currDistance = Math.abs(left - curr.offsetLeft) + Math.abs(top - curr.offsetTop);
                             console.log({ e: curr }, currDistance);
+                            if (curr.offsetTop >= _this2.$selected) {
+                                return prev;
+                            }
+                            console.log("above");
                             if (currDistance > prev.distance) {
                                 return prev;
                             }
+                            console.log("closer");
                             if (_this2.$options.autofocus && curr.disabled) {
                                 return prev;
                             }
+                            console.log("gotcha");
                             return {
                                 distance: currDistance,
                                 element: curr
