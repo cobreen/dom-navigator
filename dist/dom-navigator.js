@@ -865,8 +865,11 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         }, {
             key: 'handleKeydown',
             value: function handleKeydown(event) {
-                if (this.$selected && ['INPUT'].includes(this.$selected.nodeName) && ['INPUT'].includes(document.activeElement.nodeName)) {
-                    this.$selected = null;return;
+                console.log('triggered', document.activeElement.nodeName, event.target, this.$selected);
+                if (this.$selected && ['INPUT'].includes(this.$selected.nodeName) || ['INPUT'].includes(document.activeElement.nodeName)) {
+                    console.log('forcing default');
+                    this.$selected = null;
+                    return;
                 }
                 if (this.$keys[event.which]) {
                     event.preventDefault();
