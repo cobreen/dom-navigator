@@ -292,6 +292,7 @@
          */
         left() {
             let next = null;
+            if (this.$selected && ['INPUT'].includes(this.$selected.nodeName)) {return;}
 
             switch (this.$options.mode) {
 
@@ -363,6 +364,7 @@
          */
         up() {
             let next = null;
+            if (this.$selected && ['INPUT'].includes(this.$selected.nodeName)) {return;}
 
             switch (this.$options.mode) {
 
@@ -434,6 +436,7 @@
          */
         right() {
             let next = null;
+            if (this.$selected && ['INPUT'].includes(this.$selected.nodeName)) {return;}
 
             switch (this.$options.mode) {
 
@@ -503,6 +506,7 @@
          */
         down() {
             let next = null;
+            if (this.$selected && ['INPUT'].includes(this.$selected.nodeName)) {return;}
 
             switch (this.$options.mode) {
 
