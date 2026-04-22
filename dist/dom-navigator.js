@@ -351,7 +351,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                             break;
                         }
                         if (!this.$selected && this.$options.autofocus) {
-                            next = document.activeElement;
+                            this.$selected = document.activeElement;
                         }
                         if (this.$options.autofocus && this.$selected.dataset.domNavigatorLeft) {
                             next = document.querySelector(this.$selected.dataset.domNavigatorLeft);
@@ -426,7 +426,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                             break;
                         }
                         if (!this.$selected && this.$options.autofocus) {
-                            next = document.activeElement;
+                            this.$selected = document.activeElement;
                         }
                         if (this.$options.autofocus && this.$selected.dataset.domNavigatorUp) {
                             next = document.querySelector(this.$selected.dataset.domNavigatorUp);
@@ -501,7 +501,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                             break;
                         }
                         if (!this.$selected && this.$options.autofocus) {
-                            next = document.activeElement;
+                            this.$selected = document.activeElement;
                         }
                         if (this.$options.autofocus && this.$selected.dataset.domNavigatorRight) {
                             next = document.querySelector(this.$selected.dataset.domNavigatorRight);
@@ -574,7 +574,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                             break;
                         }
                         if (!this.$selected && this.$options.autofocus) {
-                            next = document.activeElement;
+                            this.$selected = document.activeElement;
                         }
                         if (this.$options.autofocus && this.$selected.dataset.domNavigatorDown) {
                             next = document.querySelector(this.$selected.dataset.domNavigatorDown);
