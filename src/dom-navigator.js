@@ -773,10 +773,13 @@
          * @return void.
          */
         handleKeydown(event) {
+            console.log(document.activeElement.nodeName);
             if ((this.$selected && ['INPUT'].includes(this.$selected.nodeName)) || ['INPUT'].includes(document.activeElement.nodeName)) {
                 this.$selected = null;
+                console.log(1);
                 return;
             }
+            console.log(2);
             if (this.$keys[event.which]) {
                 event.preventDefault();
                 this.$keys[event.which].call(this, event);
