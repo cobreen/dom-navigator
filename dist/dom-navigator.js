@@ -649,7 +649,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                     nextIndex = index === focusable.length - 1 ? 0 : index + 1;
                 }
 
-                this.select(nextIndex);
+                this.select(focusable[nextIndex]);
             }
         }, {
             key: 'closest',

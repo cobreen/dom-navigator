@@ -594,7 +594,7 @@
                 nextIndex = index === focusable.length - 1 ? 0 : index + 1;
             }
 
-            this.select(nextIndex);
+            this.select(focusable[nextIndex]);
         }
 
         closest(top, left, height, width, prev, curr) {
