@@ -342,9 +342,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                 var _this = this;
 
                 var next = null;
-                if (this.$selected && ['INPUT'].includes(this.$selected.nodeName)) {
-                    return;
-                }
 
                 switch (this.$options.mode) {
 
@@ -420,9 +417,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                 var _this2 = this;
 
                 var next = null;
-                if (this.$selected && ['INPUT'].includes(this.$selected.nodeName)) {
-                    return;
-                }
 
                 switch (this.$options.mode) {
 
@@ -498,9 +492,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                 var _this3 = this;
 
                 var next = null;
-                if (this.$selected && ['INPUT'].includes(this.$selected.nodeName)) {
-                    return;
-                }
 
                 switch (this.$options.mode) {
 
@@ -574,9 +565,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                 var _this4 = this;
 
                 var next = null;
-                if (this.$selected && ['INPUT'].includes(this.$selected.nodeName)) {
-                    return;
-                }
 
                 switch (this.$options.mode) {
 
@@ -877,6 +865,9 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         }, {
             key: 'handleKeydown',
             value: function handleKeydown(event) {
+                if (this.$selected && ['INPUT'].includes(this.$selected.nodeName)) {
+                    return;
+                }
                 if (this.$keys[event.which]) {
                     event.preventDefault();
                     this.$keys[event.which].call(this, event);

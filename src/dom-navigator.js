@@ -292,7 +292,6 @@
          */
         left() {
             let next = null;
-            if (this.$selected && ['INPUT'].includes(this.$selected.nodeName)) {return;}
 
             switch (this.$options.mode) {
 
@@ -364,7 +363,6 @@
          */
         up() {
             let next = null;
-            if (this.$selected && ['INPUT'].includes(this.$selected.nodeName)) {return;}
 
             switch (this.$options.mode) {
 
@@ -436,7 +434,6 @@
          */
         right() {
             let next = null;
-            if (this.$selected && ['INPUT'].includes(this.$selected.nodeName)) {return;}
 
             switch (this.$options.mode) {
 
@@ -506,7 +503,6 @@
          */
         down() {
             let next = null;
-            if (this.$selected && ['INPUT'].includes(this.$selected.nodeName)) {return;}
 
             switch (this.$options.mode) {
 
@@ -777,6 +773,7 @@
          * @return void.
          */
         handleKeydown(event) {
+            if (this.$selected && ['INPUT'].includes(this.$selected.nodeName)) {return;}
             if (this.$keys[event.which]) {
                 event.preventDefault();
                 this.$keys[event.which].call(this, event);
