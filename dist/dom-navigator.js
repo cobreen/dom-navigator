@@ -342,6 +342,9 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                 var _this = this;
 
                 var next = null;
+                if (this.$selected && ['INPUT'].includes(this.$selected.nodeName)) {
+                    return;
+                }
 
                 switch (this.$options.mode) {
 
@@ -417,6 +420,9 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                 var _this2 = this;
 
                 var next = null;
+                if (this.$selected && ['INPUT'].includes(this.$selected.nodeName)) {
+                    return;
+                }
 
                 switch (this.$options.mode) {
 
@@ -492,6 +498,9 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                 var _this3 = this;
 
                 var next = null;
+                if (this.$selected && ['INPUT'].includes(this.$selected.nodeName)) {
+                    return;
+                }
 
                 switch (this.$options.mode) {
 
@@ -565,6 +574,9 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                 var _this4 = this;
 
                 var next = null;
+                if (this.$selected && ['INPUT'].includes(this.$selected.nodeName)) {
+                    return;
+                }
 
                 switch (this.$options.mode) {
 
