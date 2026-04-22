@@ -866,7 +866,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             key: 'handleKeydown',
             value: function handleKeydown(event) {
                 if (this.$selected && ['INPUT'].includes(this.$selected.nodeName)) {
-                    return;
+                    this.$selected = null;return;
                 }
                 if (this.$keys[event.which]) {
                     event.preventDefault();
