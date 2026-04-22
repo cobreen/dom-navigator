@@ -629,12 +629,27 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             }
         }, {
             key: 'tab',
-            value: function tab() {
-                if (this.$selected && this.$options.autofocus) {
-                    removeClass(this.$selected, this.$options.selected);
-                    this.$selected.blur();
-                    this.$selected = null;
+            value: function tab(e) {
+                var focusableSelectors = ['a[href]', 'button:not([disabled])', 'input:not([disabled])', 'textarea:not([disabled])', 'select:not([disabled])', '[tabindex]:not([tabindex="-1"])'];
+
+                var focusable = Array.from(document.querySelectorAll(focusableSelectors.join(','))).filter(function (el) {
+                    return el.offsetParent !== null;
+                }); // visible only
+
+                var current = document.activeElement;
+                var index = focusable.indexOf(current);
+
+                var nextIndex = void 0;
+
+                if (e.shiftKey) {
+                    // Shift + Tab → backward
+                    nextIndex = index <= 0 ? focusable.length - 1 : index - 1;
+                } else {
+                    // Tab → forward
+                    nextIndex = index === focusable.length - 1 ? 0 : index + 1;
                 }
+
+                this.select(nextIndex);
             }
         }, {
             key: 'closest',
@@ -852,7 +867,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             value: function handleKeydown(event) {
                 if (this.$keys[event.which]) {
                     event.preventDefault();
-                    this.$keys[event.which].call(this);
+                    this.$keys[event.which].call(this, event);
                 }
             }
         }]);

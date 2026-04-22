@@ -567,12 +567,34 @@
             this.select(next, DomNavigator.DIRECTION.down);
         }
 
-        tab() {
-            if (this.$selected && this.$options.autofocus) {
-                removeClass(this.$selected, this.$options.selected);
-                this.$selected.blur();
-                this.$selected = null;
+        tab(e) {
+            const focusableSelectors = [
+                'a[href]',
+                'button:not([disabled])',
+                'input:not([disabled])',
+                'textarea:not([disabled])',
+                'select:not([disabled])',
+                '[tabindex]:not([tabindex="-1"])'
+            ];
+
+            const focusable = Array.from(
+                document.querySelectorAll(focusableSelectors.join(','))
+            ).filter(el => el.offsetParent !== null); // visible only
+
+            const current = document.activeElement;
+            const index = focusable.indexOf(current);
+
+            let nextIndex;
+
+            if (e.shiftKey) {
+                // Shift + Tab → backward
+                nextIndex = index <= 0 ? focusable.length - 1 : index - 1;
+            } else {
+                // Tab → forward
+                nextIndex = index === focusable.length - 1 ? 0 : index + 1;
             }
+
+            this.select(nextIndex);
         }
 
         closest(top, left, height, width, prev, curr) {
@@ -753,7 +775,7 @@
         handleKeydown(event) {
             if (this.$keys[event.which]) {
                 event.preventDefault();
-                this.$keys[event.which].call(this);
+                this.$keys[event.which].call(this, event);
             }
         }
 
