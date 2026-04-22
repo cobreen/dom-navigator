@@ -773,9 +773,7 @@
          * @return void.
          */
         handleKeydown(event) {
-            console.log('triggered', document.activeElement.nodeName, event.target, this.$selected);
             if ((this.$selected && ['INPUT'].includes(this.$selected.nodeName)) || ['INPUT'].includes(document.activeElement.nodeName)) {
-                console.log('forcing default');
                 this.$selected = null;
                 return;
             }
