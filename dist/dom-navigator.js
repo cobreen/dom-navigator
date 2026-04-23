@@ -1,9 +1,3 @@
-/*!
- * dom-navigator - v1.1.0 - 2026-04-22
- *
- * https://github.com/rmariuzzo/dom-navigator
- * Copyright (c) 2014, 2026 Rubens Mariuzzo Licensed MIT
- */
 'use strict';
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
@@ -869,7 +863,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                     this.$selected = null;
                     return;
                 }
-                console.log(2);
                 if (this.$keys[event.which]) {
                     event.preventDefault();
                     this.$keys[event.which].call(this, event);

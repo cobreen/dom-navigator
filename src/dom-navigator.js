@@ -777,7 +777,6 @@
                 this.$selected = null;
                 return;
             }
-            console.log(2);
             if (this.$keys[event.which]) {
                 event.preventDefault();
                 this.$keys[event.which].call(this, event);
